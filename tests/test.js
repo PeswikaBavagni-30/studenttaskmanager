@@ -7,5 +7,5 @@ test("valid task should be accepted", () => {
 });
 
 test("empty task should be rejected", () => {
-    assert.strictEqual(isValidTask(""), true);
+    assert.strictEqual(isValidTask(""), false);
 });
