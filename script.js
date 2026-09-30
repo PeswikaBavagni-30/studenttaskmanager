@@ -1,8 +1,12 @@
+function isValidTask(task) {
+    return task.trim().length > 0;
+}
+
 function addTask() {
     const input = document.getElementById("taskInput");
     const taskText = input.value.trim();
 
-    if (taskText === "") {
+    if (!isValidTask(taskText)) {
         return;
     }
 
@@ -19,10 +23,6 @@ function addTask() {
     input.value = "";
 }
 
-
-// Dark Mode
-const darkModeButton = document.getElementById("darkModeButton");
-
-darkModeButton.addEventListener("click", function () {
-    document.body.classList.toggle("dark-mode");
-});
+if (typeof module !== "undefined") {
+    module.exports = { isValidTask };
+}
