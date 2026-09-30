@@ -1,4 +1,4 @@
-name: CI
+name: CI-CD
 
 on:
   push:
@@ -8,9 +8,11 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   test:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -24,3 +26,40 @@ jobs:
 
       - name: Run tests
         run: npm test
+
+  deploy:
+    if: github.event_name == 'push'
+    needs: test
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Prepare website
+        run: |
+          mkdir dist
+          cp index.html dist/
+          cp style.css dist/
+          cp script.js dist/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload website
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
