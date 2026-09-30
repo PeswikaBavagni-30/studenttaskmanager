@@ -18,7 +18,11 @@ function addTask() {
 
     input.value = "";
 }
-.dark-mode {
-    background: #222;
-    color: white;
-}
+
+
+// Dark Mode
+const darkModeButton = document.getElementById("darkModeButton");
+
+darkModeButton.addEventListener("click", function () {
+    document.body.classList.toggle("dark-mode");
+});
